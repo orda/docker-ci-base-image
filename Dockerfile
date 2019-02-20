@@ -1,4 +1,4 @@
-FROM circleci/node:10.15.1
+FROM circleci/node:10.15.1-browsers
 
 RUN sudo apt-get update && \
   sudo apt-get install python3-dev
