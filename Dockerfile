@@ -10,7 +10,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o ~/get-pip.py && \
   sudo ln -s ~/.local/bin/pip /usr/local/bin/pip
 
 # Install AWS EB CLI
-RUN pip install awsebcli==3.14.7 --user && sudo ln -s ~/.local/bin/eb /usr/local/bin/eb
+RUN pip install awsebcli==3.14.13 --user && sudo ln -s ~/.local/bin/eb /usr/local/bin/eb
 
 # Install AWS cli
 RUN pip install awscli==1.16.96 --user && sudo ln -s ~/.local/bin/aws /usr/local/bin/aws
