@@ -19,4 +19,4 @@ RUN pip install awscli==1.16.116 --user && sudo ln -s ~/.local/bin/aws /usr/loca
 RUN sudo npm i -g npm@6.8.0
 
 # Install serverless-cli
-RUN sudo npm i -g serverless@1.36.3
+RUN sudo npm i -g serverless@1.38.0
