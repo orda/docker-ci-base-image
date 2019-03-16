@@ -1,4 +1,4 @@
-FROM circleci/node:10.15.2-browsers
+FROM circleci/node:10.15.3-browsers
 
 RUN sudo apt-get update && \
   sudo apt-get install python3-dev
@@ -13,10 +13,10 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o ~/get-pip.py && \
 RUN pip install awsebcli==3.14.13 --user && sudo ln -s ~/.local/bin/eb /usr/local/bin/eb
 
 # Install AWS cli
-RUN pip install awscli==1.16.121 --user && sudo ln -s ~/.local/bin/aws /usr/local/bin/aws
+RUN pip install awscli==1.16.125 --user && sudo ln -s ~/.local/bin/aws /usr/local/bin/aws
 
 # Update npm
 RUN sudo npm i -g npm@6.9.0
 
 # Install serverless-cli
-RUN sudo npm i -g serverless@1.38.0
+RUN sudo npm i -g serverless@1.39.0
