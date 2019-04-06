@@ -10,10 +10,10 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o ~/get-pip.py && \
   sudo ln -s ~/.local/bin/pip /usr/local/bin/pip
 
 # Install AWS EB CLI
-RUN pip install awsebcli==3.14.13 --user && sudo ln -s ~/.local/bin/eb /usr/local/bin/eb
+RUN pip install awsebcli==3.15.0 --user && sudo ln -s ~/.local/bin/eb /usr/local/bin/eb
 
 # Install AWS cli
-RUN pip install awscli==1.16.135 --user && sudo ln -s ~/.local/bin/aws /usr/local/bin/aws
+RUN pip install awscli==1.16.140 --user && sudo ln -s ~/.local/bin/aws /usr/local/bin/aws
 
 # Update npm
 RUN sudo npm i -g npm@6.9.0
