@@ -10,11 +10,15 @@ workflows:
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore: /.*/
       - build-docker-image:
           path: node-10-browsers
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore: /.*/
 jobs:
   lint-script:
     docker:
