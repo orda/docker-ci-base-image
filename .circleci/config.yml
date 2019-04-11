@@ -3,7 +3,7 @@ workflows:
   version: 2
   docker-image-builds:
     jobs:
-      - lint-script
+      - lint-script:
           filters:
             tags:
               only: /.*/
