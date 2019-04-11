@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "main": "generate-dockerfiles.js",
   "scripts": {
-    "build": "node generate-dockerfiles"
+    "build": "node generate-dockerfiles",
+    "lint": "eslint '*.js' && prettier-check '*.js'"
   },
   "repository": "git@github.com:orda/docker-ci-base-image.git",
   "author": "Peter Juras <peter@orda-app.com>",
   "license": "MIT",
   "devDependencies": {
-    "@orda/eslint-config": "^1.6.0-alpha.3"
+    "@orda/eslint-config": "^1.6.0-alpha.3",
+    "prettier": "^1.16.4",
+    "prettier-check": "^2.0.0"
   }
 }

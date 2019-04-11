@@ -1,0 +1,85 @@
+version: 2
+workflows:
+  version: 2
+  docker-image-builds:
+    jobs:
+      - lint-script
+      - build-docker-image:
+          path: node-10
+          latest: true
+          filters:
+            tags:
+              only: /.*/
+      - build-docker-image:
+          path: node-10-browsers
+          filters:
+            tags:
+              only: /.*/
+jobs:
+  lint-script:
+    docker:
+      - image: orda/ci-base
+    working_directory: ~/repo
+    steps:
+      - checkout
+      # Set NPM token
+      - run:
+          name: Insert NPM token from environment
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-deps-ci-base-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-deps-ci-base-
+      - run:
+          name: Install dependencies
+          command: yarn --frozen-lockfile
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-deps-ci-base-{{ checksum "yarn.lock" }}
+      # ESLinting and prettier-check
+      - run:
+          name: Lint script
+          command: yarn lint
+  build-docker-image:
+    docker:
+      - image: orda/ci-base
+    parameters:
+      latest:
+        description: Whether the image should be published to the "latest" tag
+        default: false
+        type: boolean
+      path:
+        description: The path and tag name of the specified image
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: Generate Dockerfiles
+          command: yarn build
+      - setup_remote_docker
+      - run:
+          name: Build versioned docker image
+          command: docker build -t orda/ci-base:<<parameters.path >> -t orda/ci-base:<<parameters.path>>-$CIRCLE_TAG << parameters.path >>
+      - when:
+          condition: << parameters.latest >>
+          steps:
+            - run:
+                name: Tag image as latest
+                command: docker tag orda/ci-base:<<parameters.path>>-$CIRCLE_TAG orda/ci-base:latest
+      - run:
+          name: Login to Docker Hub
+          command: echo $DOCKER_PWD | docker login -u $DOCKER_USERNAME --password-stdin
+      - run:
+          name: Push docker image to Docker Hub
+          command: |
+            docker push orda/ci-base:<<parameters.path>>
+            docker push orda/ci-base:<<parameters.path>>-$CIRCLE_TAG
+      - when:
+          condition: << parameters.latest >>
+          steps:
+            - run:
+                name: Push docker image as latest tag to Docker Hub
+                command: docker push orda/ci-base:latest

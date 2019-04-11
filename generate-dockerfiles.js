@@ -13,8 +13,8 @@ const writeFileAsync = promisify(fs.writeFile);
 const mkdirAsync = promisify(fs.mkdir);
 
 const DOCKERFILE = "Dockerfile";
-const NODE_10_BASE_PATH = "ci-base";
-const NODE_10_BROWERS_PATH = "ci-base-browsers";
+const NODE_10_BASE_PATH = "node-10";
+const NODE_10_BROWERS_PATH = `${NODE_10_BASE_PATH}-browsers`;
 
 const NODE_10_BASE_IMAGE_STEP = `FROM circleci/node:${NODE_10_VERSION}`;
 const NODE_10_BROWSERS_IMAGE_STEP = `${NODE_10_BASE_IMAGE_STEP}-browsers`;
