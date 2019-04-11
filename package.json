@@ -1,0 +1,14 @@
+{
+  "name": "docker-ci-base-image",
+  "version": "1.0.0",
+  "main": "generate-dockerfiles.js",
+  "scripts": {
+    "build": "node generate-dockerfiles"
+  },
+  "repository": "git@github.com:orda/docker-ci-base-image.git",
+  "author": "Peter Juras <peter@orda-app.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@orda/eslint-config": "^1.6.0-alpha.3"
+  }
+}
