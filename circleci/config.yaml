@@ -68,7 +68,9 @@ jobs:
           steps:
             - run:
                 name: Tag image as latest
-                command: docker tag orda/ci-base:<<parameters.path>>-$CIRCLE_TAG orda/ci-base:latest
+                command: |
+                  docker tag orda/ci-base:<<parameters.path>>-$CIRCLE_TAG orda/ci-base:latest
+                  docker tag orda/ci-base:<<parameters.path>>-$CIRCLE_TAG orda/ci-base:$CIRCLE_TAG
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PWD | docker login -u $DOCKER_USERNAME --password-stdin
@@ -82,4 +84,6 @@ jobs:
           steps:
             - run:
                 name: Push docker image as latest tag to Docker Hub
-                command: docker push orda/ci-base:latest
+                command: |
+                  docker push orda/ci-base:latest
+                  docker push orda/ci-base:$CIRCLE_TAG
