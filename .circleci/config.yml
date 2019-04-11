@@ -66,6 +66,7 @@ jobs:
   build-docker-image:
     docker:
       - image: circleci/node:lts
+    working_directory: ~/repo
     parameters:
       latest:
         description: Whether the image should be published to the "latest" tag
