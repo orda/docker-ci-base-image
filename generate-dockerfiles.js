@@ -12,6 +12,7 @@ const SERVERLESS_CLI_VERSION = "1.40.0";
 const writeFileAsync = promisify(fs.writeFile);
 const mkdirAsync = promisify(fs.mkdir);
 
+const DOCKERFILES_FOLDER = "Dockerfiles";
 const DOCKERFILE = "Dockerfile";
 const NODE_10_BASE_PATH = "node-10";
 const NODE_10_BROWERS_PATH = `${NODE_10_BASE_PATH}-browsers`;
@@ -50,8 +51,9 @@ RUN sudo npm i -g serverless@${SERVERLESS_CLI_VERSION}
 `;
 
 async function writeDockerFile(steps, folder) {
-  await mkdirAsync(folder, { recursive: true });
-  await writeFileAsync(path.join(folder, DOCKERFILE), steps.join("\n"));
+  const baseFolder = path.join(DOCKERFILES_FOLDER, folder);
+  await mkdirAsync(baseFolder, { recursive: true });
+  await writeFileAsync(path.join(baseFolder, DOCKERFILE), steps.join("\n"));
 }
 
 async function generateNode10BaseDockerfile() {

@@ -54,11 +54,18 @@ jobs:
           key: v1-deps-ci-base-{{ checksum "yarn.lock" }}
       # ESLinting and prettier-check
       - run:
+          name: Generate Dockerfiles
+          command: yarn build
+      - run:
           name: Lint script
           command: yarn lint
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - Dockerfiles
   build-docker-image:
     docker:
-      - image: orda/ci-base
+      - image: circleci/node:lts
     parameters:
       latest:
         description: Whether the image should be published to the "latest" tag
@@ -68,14 +75,12 @@ jobs:
         description: The path and tag name of the specified image
         type: string
     steps:
-      - checkout
-      - run:
-          name: Generate Dockerfiles
-          command: yarn build
+      - attach_workspace:
+          at: ~/repo
       - setup_remote_docker
       - run:
           name: Build versioned docker image
-          command: docker build -t orda/ci-base:<<parameters.path >> -t orda/ci-base:<<parameters.path>>-$CIRCLE_TAG << parameters.path >>
+          command: docker build -t orda/ci-base:<<parameters.path >> -t orda/ci-base:<<parameters.path>>-$CIRCLE_TAG Dockerfiles/<< parameters.path >>
       - when:
           condition: << parameters.latest >>
           steps:
