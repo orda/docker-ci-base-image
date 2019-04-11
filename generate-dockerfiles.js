@@ -16,6 +16,7 @@ const DOCKERFILES_FOLDER = "Dockerfiles";
 const DOCKERFILE = "Dockerfile";
 const NODE_10_BASE_PATH = "node-10";
 const NODE_10_BROWERS_PATH = `${NODE_10_BASE_PATH}-browsers`;
+const ANDOROID_BASE_IMAGE_PATH = "android";
 
 const NODE_10_BASE_IMAGE_STEP = `FROM circleci/node:${NODE_10_VERSION}`;
 const NODE_10_BROWSERS_IMAGE_STEP = `${NODE_10_BASE_IMAGE_STEP}-browsers`;
@@ -50,6 +51,17 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VER
 RUN sudo npm i -g serverless@${SERVERLESS_CLI_VERSION}
 `;
 
+const androidDockerSteps = `FROM circleci/android:api-28
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+RUN sudo apt-get update && \\
+  sudo apt-get install nodejs rubygems
+
+RUN gem install bundler
+
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+`;
+
 async function writeDockerFile(steps, folder) {
   const baseFolder = path.join(DOCKERFILES_FOLDER, folder);
   await mkdirAsync(baseFolder, { recursive: true });
@@ -66,10 +78,16 @@ async function generateNode10BrowsersDockerfile() {
   await writeDockerFile(steps, NODE_10_BROWERS_PATH);
 }
 
+async function generateAndroidBaseDockerfile() {
+  const steps = [androidDockerSteps];
+  await writeDockerFile(steps, ANDOROID_BASE_IMAGE_PATH);
+}
+
 async function main() {
   await Promise.all([
     generateNode10BaseDockerfile(),
-    generateNode10BrowsersDockerfile()
+    generateNode10BrowsersDockerfile(),
+    generateAndroidBaseDockerfile()
   ]);
 }
 

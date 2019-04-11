@@ -28,6 +28,16 @@ workflows:
               only: /.*/
             branches:
               ignore: /.*/
+      - build-docker-image:
+          name: build-android
+          path: android
+          requires:
+            - lint-script
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
 jobs:
   lint-script:
     docker:
