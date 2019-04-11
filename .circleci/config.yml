@@ -4,6 +4,9 @@ workflows:
   docker-image-builds:
     jobs:
       - lint-script
+          filters:
+            tags:
+              only: /.*/
       - build-docker-image:
           name: build-node-10
           path: node-10
