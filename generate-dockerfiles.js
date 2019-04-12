@@ -59,7 +59,9 @@ RUN sudo apt-get update && \\
 
 RUN gem install bundler
 
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VERSION} && \\
+  sudo ln -fs ~/.yarn/bin/yarn /usr/local/bin/yarn && \\
+  sudo ln -fs ~/.yarn/bin/yarn /usr/local/bin/yarnpkg
 `;
 
 async function writeDockerFile(steps, folder) {
