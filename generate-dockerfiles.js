@@ -8,12 +8,14 @@ const AWS_CLI_VERSION = "1.16.140";
 const NPM_VERSION = "6.9.0";
 const YARN_VERSION = "1.15.2";
 const SERVERLESS_CLI_VERSION = "1.40.0";
+const ANDROID_SDK_VERSION = "28";
 
 const writeFileAsync = promisify(fs.writeFile);
 const mkdirAsync = promisify(fs.mkdir);
 
 const DOCKERFILES_FOLDER = "Dockerfiles";
 const DOCKERFILE = "Dockerfile";
+
 const NODE_10_BASE_PATH = "node-10";
 const NODE_10_BROWERS_PATH = `${NODE_10_BASE_PATH}-browsers`;
 const ANDOROID_BASE_IMAGE_PATH = "android";
@@ -51,7 +53,7 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VER
 RUN sudo npm i -g serverless@${SERVERLESS_CLI_VERSION}
 `;
 
-const androidDockerSteps = `FROM circleci/android:api-28
+const androidDockerSteps = `FROM circleci/android:api-${ANDROID_SDK_VERSION}
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
 RUN sudo apt-get update && \\
