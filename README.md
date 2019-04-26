@@ -45,7 +45,7 @@ Included software and packages:
 * serverless ^1.0.0
 * Chrome
 * Firefox
-* Java 8*
+* Java 8
 * Geckodriver
 
 ### Node.js 12 with browsers
@@ -62,7 +62,7 @@ Included software and packages:
 * serverless ^1.0.0
 * Chrome
 * Firefox
-* Java 8*
+* Java 8
 * Geckodriver
 
 ### Android
