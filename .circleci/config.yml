@@ -29,6 +29,26 @@ workflows:
             branches:
               ignore: /.*/
       - build-docker-image:
+          name: build-node-12
+          path: node-12
+          requires:
+            - lint-script
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - build-docker-image:
+          name: build-node-12-browsers
+          path: node-12-browsers
+          requires:
+            - lint-script
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - build-docker-image:
           name: build-android
           path: android
           requires:

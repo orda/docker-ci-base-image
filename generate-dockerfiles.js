@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const path = require("path");
 
 const NODE_10_VERSION = "10.15.3";
+const NODE_12_VERSION = "12.0.0";
 const AWS_EB_CLI_VERSION = "3.15.0";
 const AWS_CLI_VERSION = "1.16.140";
 const NPM_VERSION = "6.9.0";
@@ -16,12 +17,10 @@ const mkdirAsync = promisify(fs.mkdir);
 const DOCKERFILES_FOLDER = "Dockerfiles";
 const DOCKERFILE = "Dockerfile";
 
-const NODE_10_BASE_PATH = "node-10";
-const NODE_10_BROWERS_PATH = `${NODE_10_BASE_PATH}-browsers`;
+const NODE_BASE_PATH = "node-";
 const ANDOROID_BASE_IMAGE_PATH = "android";
 
-const NODE_10_BASE_IMAGE_STEP = `FROM circleci/node:${NODE_10_VERSION}`;
-const NODE_10_BROWSERS_IMAGE_STEP = `${NODE_10_BASE_IMAGE_STEP}-browsers`;
+const NODE_BASE_IMAGE_STEP = "FROM circleci/node:";
 
 const commonDockerSteps = `
 RUN sudo apt-get update && \\
@@ -72,14 +71,19 @@ async function writeDockerFile(steps, folder) {
   await writeFileAsync(path.join(baseFolder, DOCKERFILE), steps.join("\n"));
 }
 
-async function generateNode10BaseDockerfile() {
-  const steps = [NODE_10_BASE_IMAGE_STEP, commonDockerSteps];
-  await writeDockerFile(steps, NODE_10_BASE_PATH);
+async function generateNodeBaseDockerfile(version) {
+  const steps = [`${NODE_BASE_IMAGE_STEP}${version}`, commonDockerSteps];
+  const [nodeMajorVersion] = version.split(".");
+  await writeDockerFile(steps, `${NODE_BASE_PATH}${nodeMajorVersion}`);
 }
 
-async function generateNode10BrowsersDockerfile() {
-  const steps = [NODE_10_BROWSERS_IMAGE_STEP, commonDockerSteps];
-  await writeDockerFile(steps, NODE_10_BROWERS_PATH);
+async function generateNodeBrowsersDockerfile(version) {
+  const steps = [
+    `${NODE_BASE_IMAGE_STEP}${version}-browsers`,
+    commonDockerSteps
+  ];
+  const [nodeMajorVersion] = version.split(".");
+  await writeDockerFile(steps, `${NODE_BASE_PATH}${nodeMajorVersion}-browsers`);
 }
 
 async function generateAndroidBaseDockerfile() {
@@ -87,10 +91,17 @@ async function generateAndroidBaseDockerfile() {
   await writeDockerFile(steps, ANDOROID_BASE_IMAGE_PATH);
 }
 
+function generateNodeImages(version) {
+  return Promise.all([
+    generateNodeBaseDockerfile(version),
+    generateNodeBrowsersDockerfile(version)
+  ]);
+}
+
 async function main() {
   await Promise.all([
-    generateNode10BaseDockerfile(),
-    generateNode10BrowsersDockerfile(),
+    generateNodeImages(NODE_10_VERSION),
+    generateNodeImages(NODE_12_VERSION),
     generateAndroidBaseDockerfile()
   ]);
 }
