@@ -8,7 +8,7 @@ const AWS_EB_CLI_VERSION = "3.15.2";
 const AWS_CLI_VERSION = "1.16.192";
 const NPM_VERSION = "6.9.2";
 const YARN_VERSION = "1.16.0";
-const SERVERLESS_CLI_VERSION = "1.44.1";
+const SERVERLESS_CLI_VERSION = "1.46.1";
 const ANDROID_SDK_VERSION = "28";
 
 const writeFileAsync = promisify(fs.writeFile);
