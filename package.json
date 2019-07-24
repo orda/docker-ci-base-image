@@ -10,8 +10,9 @@
   "author": "Peter Juras <peter@orda-app.com>",
   "license": "MIT",
   "devDependencies": {
-    "@orda/eslint-config": "^1.6.0-alpha.3",
-    "prettier": "^1.17.0",
-    "prettier-check": "^2.0.0"
+    "@orda/eslint-config": "^2.3.0",
+    "prettier": "^1.18.2",
+    "prettier-check": "^2.0.0",
+    "typescript": "^3.5.3"
   }
 }
