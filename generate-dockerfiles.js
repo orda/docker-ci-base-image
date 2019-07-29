@@ -10,6 +10,9 @@ const NPM_VERSION = "6.10.2";
 const YARN_VERSION = "1.17.3";
 const SERVERLESS_CLI_VERSION = "1.48.4";
 const ANDROID_SDK_VERSION = "28";
+const SEMANTIC_RELEASE_VERSION = "15.13.18";
+const SEMANTIC_RELEASE_MONOREPO_VERSION =
+  "https://github.com/orda/semantic-release-monorepo";
 
 const writeFileAsync = promisify(fs.writeFile);
 const mkdirAsync = promisify(fs.mkdir);
@@ -19,6 +22,7 @@ const DOCKERFILE = "Dockerfile";
 
 const NODE_BASE_PATH = "node-";
 const ANDOROID_BASE_IMAGE_PATH = "android";
+const SEMANTIC_RELEASE_BASE_PATH = "node-semantic-release";
 
 const NODE_BASE_IMAGE_STEP = "FROM circleci/node:";
 
@@ -65,6 +69,24 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VER
   sudo ln -fs ~/.yarn/bin/yarn /usr/local/bin/yarnpkg
 `;
 
+const semanticReleaseDockerSteps = `FROM circleci/node:${NODE_12_VERSION}
+
+# Update npm
+RUN sudo npm i -g npm@${NPM_VERSION}
+
+# Update yarn
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VERSION} && \\
+  sudo ln -fs ~/.yarn/bin/yarn /usr/local/bin/yarn && \\
+  sudo ln -fs ~/.yarn/bin/yarn /usr/local/bin/yarnpkg 
+  
+# Copy yarn global package.json
+# COPY ${DOCKERFILES_FOLDER}/${SEMANTIC_RELEASE_BASE_PATH}/package.json ~/.config/yarn/global/
+COPY package.json /home/circleci/.config/yarn/global/
+
+# Run yarn in global folder
+RUN cd /home/circleci/.config/yarn/global && sudo yarn
+`;
+
 async function writeDockerFile(steps, folder) {
   const baseFolder = path.join(DOCKERFILES_FOLDER, folder);
   await mkdirAsync(baseFolder, { recursive: true });
@@ -98,11 +120,39 @@ function generateNodeImages(version) {
   ]);
 }
 
+async function generateSemanticReleaseDockerfile() {
+  const steps = [semanticReleaseDockerSteps];
+  const globalPackageJson = {
+    resolutions: {
+      "semantic-release-plugin-decorators":
+        "https://github.com/sanpoChew/semantic-release-plugin-decorators#0f89322cb9231b2812e6e66bbc7215b88efd02b5"
+    },
+    license: "UNLICENSED",
+    dependencies: {
+      "semantic-release": SEMANTIC_RELEASE_VERSION,
+      "semantic-release-monorepo": SEMANTIC_RELEASE_MONOREPO_VERSION
+    }
+  };
+
+  const semanticReleaseDestinationFolder = path.join(
+    DOCKERFILES_FOLDER,
+    SEMANTIC_RELEASE_BASE_PATH
+  );
+  await mkdirAsync(semanticReleaseDestinationFolder, { recursive: true });
+  await writeFileAsync(
+    path.join(semanticReleaseDestinationFolder, "package.json"),
+    JSON.stringify(globalPackageJson, null, 2)
+  );
+
+  await writeDockerFile(steps, SEMANTIC_RELEASE_BASE_PATH);
+}
+
 async function main() {
   await Promise.all([
     generateNodeImages(NODE_10_VERSION),
     generateNodeImages(NODE_12_VERSION),
-    generateAndroidBaseDockerfile()
+    generateAndroidBaseDockerfile(),
+    generateSemanticReleaseDockerfile()
   ]);
 }
 
