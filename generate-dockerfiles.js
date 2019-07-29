@@ -85,6 +85,9 @@ COPY package.json /home/circleci/.config/yarn/global/
 
 # Run yarn in global folder
 RUN cd /home/circleci/.config/yarn/global && sudo yarn
+
+# Symlink semantic-release binary
+RUN sudo ln -fs /home/circleci/.config/yarn/global/node_modules/.bin/semantic-release /usr/local/bin/semantic-release
 `;
 
 async function writeDockerFile(steps, folder) {
