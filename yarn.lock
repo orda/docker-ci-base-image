@@ -97,10 +97,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@orda/eslint-config@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@orda/eslint-config/-/eslint-config-2.3.0.tgz#3d45e0fb4751b588ab2158cb7d83e012836215b1"
-  integrity sha512-8vRlKk4QOk/U+IeWOsHz8C0+pd6JCKuCCmYs0YgQ4VSeIezvKp/pvAtvIZuyvLGxZ88Rg/zxc1K4AHcwwhvDkg==
+"@orda/eslint-config@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@orda/eslint-config/-/eslint-config-2.4.0.tgz#24e1eb74917227b7da61aaae2bc3a5d482986f65"
+  integrity sha512-8iqOzQJIYTaKv0xfBrin31vaY4ZJ6e5JvMRDOcDUOh4tPguwRu9hTbRpCvmA5GFZUoReNZva0Z9PqQhBdWKMog==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^1.9.0"
     "@typescript-eslint/parser" "^1.9.0"
