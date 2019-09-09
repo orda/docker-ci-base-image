@@ -3,10 +3,10 @@ const { promisify } = require("util");
 const path = require("path");
 
 const NODE_10_VERSION = "10.16.3";
-const NODE_12_VERSION = "12.9.1";
+const NODE_12_VERSION = "12.10.0";
 const AWS_EB_CLI_VERSION = "3.15.3";
-const AWS_CLI_VERSION = "1.16.230";
-const NPM_VERSION = "6.11.2";
+const AWS_CLI_VERSION = "1.16.234";
+const NPM_VERSION = "6.11.3";
 const YARN_VERSION = "1.17.3";
 const SERVERLESS_CLI_VERSION = "1.51.0";
 const ANDROID_SDK_VERSION = "28";
