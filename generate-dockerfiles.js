@@ -5,10 +5,10 @@ const path = require("path");
 const NODE_10_VERSION = "10.16.3";
 const NODE_12_VERSION = "12.10.0";
 const AWS_EB_CLI_VERSION = "3.15.3";
-const AWS_CLI_VERSION = "1.16.237";
+const AWS_CLI_VERSION = "1.16.243";
 const NPM_VERSION = "6.11.3";
 const YARN_VERSION = "1.17.3";
-const SERVERLESS_CLI_VERSION = "1.52.0";
+const SERVERLESS_CLI_VERSION = "1.52.2";
 const ANDROID_SDK_VERSION = "28";
 
 const writeFileAsync = promisify(fs.writeFile);
