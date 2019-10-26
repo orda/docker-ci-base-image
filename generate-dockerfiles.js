@@ -2,13 +2,13 @@ const fs = require("fs");
 const { promisify } = require("util");
 const path = require("path");
 
-const NODE_10_VERSION = "10.16.3";
-const NODE_12_VERSION = "12.11.1";
+const NODE_10_VERSION = "10.17.0";
+const NODE_12_VERSION = "12.13.0";
 const AWS_EB_CLI_VERSION = "3.15.3";
-const AWS_CLI_VERSION = "1.16.256";
+const AWS_CLI_VERSION = "1.16.266";
 const NPM_VERSION = "6.12.0";
 const YARN_VERSION = "1.19.1";
-const SERVERLESS_CLI_VERSION = "1.54.0";
+const SERVERLESS_CLI_VERSION = "1.55.1";
 const ANDROID_SDK_VERSION = "28";
 
 const writeFileAsync = promisify(fs.writeFile);
